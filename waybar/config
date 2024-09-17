@@ -7,22 +7,22 @@
 
 	"modules-left": ["cpu","memory","temperature", "bluetooth"],
 	"modules-center": ["hyprland/workspaces"],
-	"modules-right": ["network","pulseaudio", "battery","clock"],
+	"modules-right": ["network","wireplumber", "battery","clock"],
 
-	"pulseaudio": {
-		"tooltip": false,
-		"scroll-step": 5,
-		"format": "{icon} {volume}%",
-		"format-muted": "{icon} {volume}%",
-		"on-click":"pactl set-sink-mute @DEFAULT_SINK@ toggle",
-		"format-icons": {
+"wireplumber": {
+    "tooltip": false,
+	"format": "{icon} {volume}%",
+	"format-muted": " Muted",
+	"on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+    "scroll-step": 5,
+    "format-icons": {
 			"default": [
                 "󰕿", 
                 "󰖀", 
                 "󰕾"
             ]
-		}
-	},
+		},
+},
     "hyprland/workspaces": {
 		"disable-scroll": true,
         "on-click": "activate",
@@ -80,6 +80,14 @@
 	"clock": {
         "interval": 60,
         "format": "{:%H:%M | %a, %b %d}",
+          "tooltip-format": "<tt><small>{calendar}</small></tt>",
+  "calendar": {
+    "format": {
+      "months": "<span color='#ffead3'><b>{}</b></span>",
+      "today": "<span color='#ff6699'><b>{}</b></span>"
+    }
+  }
+},
     },
 
     "cpu": {
@@ -95,13 +103,18 @@
 
     "memory": {
         "interval": 10,
-        "format": " {used}GiB",
+        "format": "  {used}GiB",
         "max-length": 13
     },
     "bluetooth": {
-        "format": "󰂯 Connecting...",
-        "format-disabled": "󰂲 Off",
-        "format-connected": "󰂱 {device_alias}",
-        "on-click": "rfkill toggle bluetooth",
-    },
+	"format": " {status}",
+	"format-connected": " {device_alias}",
+    "on-click": "rfkill toggle bluetooth",
+	"format-connected-battery": " {device_alias} {device_battery_percentage}%",
+	// "format-device-preference": [ "device1", "device2" ], // preference list deciding the displayed device
+	"tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+	"tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+	"tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+	"tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%"
+},
 }
